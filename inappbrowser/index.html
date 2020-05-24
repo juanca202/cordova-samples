@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <title>Demo InAppBrowser</title>
+  <style>
+    .safe-area {
+      height: constant(safe-area-inset-top);
+      height: env(safe-area-inset-top);
+      background-color: #FCF;
+    }
+  </style>
+  <script src="cordova.js"></script>
+  <script>
+    var openPopup = function(options) {
+      var popup = cordova.InAppBrowser.open(
+        'https://devapppersonas.dce.ec/pad/?utm_medium=MUL',
+        '_blank',
+        options
+      );
+      popup.addEventListener(
+        "loadstart",
+        (event) => {
+          // Cierra la parte transaccional
+          if (event.url.match("/close")) {
+            popup.close();
+            popup = undefined;
+          }
+        }
+      );
+    }
+    document.addEventListener("deviceready", function() {
+      if (cordova.platformId == 'android') {
+        //StatusBar.backgroundColorByHexString("#152748");
+        //StatusBar.overlaysWebView(false);
+      }
+    }, false);
+  </script>
+</head>
+
+<body>
+  <div class="safe-area"></div>
+  <div class="container p-4">
+    <button type="button" class="btn btn-block mb-3" onclick="openPopup('location=no,zoom=no,toolbar=no,fullscreen=yes')">Abrir fullscreen</button>
+    <button type="button" class="btn btn-block mb-3" onclick="openPopup('location=no,zoom=no,toolbar=no,fullscreen=no')">Abrir normal</button>
+    <button type="button" class="btn btn-block" onclick="openPopup('toolbarcolor=#152748,toolbar=yes,toolbarposition=top,fullscreen=no,closebuttoncolor=#FFFFFF,hideurlbar=yes,location=yes,hidenavigationbuttons=yes')">Abrir con toolbar</button>
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+
+</html>
